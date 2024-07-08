@@ -1,4 +1,4 @@
-@extends('layouts.default')
+@extends('layouts.bootstrap')
 @section('title', 'Действия')
 @section('content')
     <div class="d-flex gap-2 justify-content-center py-5">
