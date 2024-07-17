@@ -1,9 +1,9 @@
-@if(isset($subLink['type']) and $subLink['type'] == 'divider')
+@if(isset($item['type']) and $item['type'] == 'divider')
    <li>
       <hr class="dropdown-divider" />
    </li>
 @else
    <li>
-      <a class="dropdown-item" href="{{$subLink['href'] ?? '#'}}">{{$subLink['label'] ?? 'Undefined'}}</a>
+      <a class="dropdown-item" href="{{$item['href'] ?? '#'}}">{{$item['label'] ?? 'Undefined'}}</a>
    </li>
 @endif
