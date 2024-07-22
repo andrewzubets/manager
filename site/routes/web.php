@@ -9,3 +9,7 @@ Route::get('/', function () {
 Route::get('/bootstrap-test', function () {
     return view('bootstrap-test');
 })->name('bootstrap-test');
+
+Route::get('/vue',function (){
+    return view('vue');
+});
