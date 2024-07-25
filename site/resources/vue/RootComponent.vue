@@ -1,10 +1,20 @@
 <template>
-<h1>Root</h1>
+    <Navbar />
+    <router-view>
+
+    </router-view>
 </template>
 
+<script setup>
+const props = defineProps(['aaa']);
+console.log('root',props);
+</script>
 <script>
+import Navbar from "./Navbar/Navbar.vue";
+
 export default {
-    name: "RootComponent"
+    name: "RootComponent",
+    components: {Navbar}
 }
 </script>
 
