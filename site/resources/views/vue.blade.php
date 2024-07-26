@@ -11,8 +11,8 @@
     <x-spa.preloaded-state :data="$preloaded_state" />
 </div>
 <link rel="stylesheet" href="/css/bootstrap.min.css" />
-<link rel="stylesheet" href="/build/css/app.css?@front_version('css','app')"/>
-<script src="/build/js/app.js?@front_version('js','app')"></script>
+<link rel="stylesheet" href="/build/css/app.css?@front_version('app.css')"/>
+<script src="/build/js/app.js?@front_version('app.js')"></script>
 </body>
 </html>
 

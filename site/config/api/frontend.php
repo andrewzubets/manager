@@ -2,13 +2,9 @@
 
 return [
   'path' => 'public/build/versions.json',
-  'is_local' => env('APP_ENV', 'production') === 'local',
+  'is_local' => false, //env('APP_ENV', 'production') === 'local',
   'default' => [
-    'js' => [
-        'app' => 1
-    ],
-    'css' => [
-        'app' => 1
-    ],
+    'app.js' => 1,
+    'app.css' => 1,
   ]
 ];

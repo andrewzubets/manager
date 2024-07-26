@@ -28,6 +28,24 @@ class FrontendCommand extends Command
     protected $description = 'Handles frontend actions.';
 
     /**
+     * Action list.
+     */
+    protected array $actions = [
+      'inc-all' => [
+          'method' => 'onIncrementAll',
+          'description' => 'Increment version.',
+      ],
+      'info' => [
+          'method' => 'onInfo',
+          'description' => 'Get all version info.',
+      ],
+      'help' => [
+          'method' => 'onHelp',
+          'description' => 'Lists all available actions.',
+      ],
+    ];
+
+    /**
      * Handles command.
      *
      * @return void
@@ -41,33 +59,30 @@ class FrontendCommand extends Command
         $action = Str::trim($action);
         $action = Str::lower($action);
 
-        switch ($action){
-            case 'inc-all': $this->onIncrementAll(); break;
-            case 'info': $this->onInfo(); break;
-            default: $this->onHelp();
+        if(isset($this->actions[$action])){
+            $method = $this->actions[$action]['method'];
+            $this->{$method}();
+        }else{
+            $this->onHelp();
         }
     }
 
     /**
      * Prints help info.
      */
-    private function onHelp(): void
-    {
+    private function onHelp(): void{
         $this->info('Available actions:');
-        $help = [
-            [
-                'i',
-                'Increment version.'
-            ],
-            [
-                'all',
-                'Get all version info.'
-            ],
-        ];
+        $rows = [];
+        foreach ($this->actions as $id => $actionData){
+           $rows[] = [
+               $id,
+               $actionData['description'],
+           ];
+        }
         $this->output->table([
             'id',
             'description'
-        ],$help);
+        ],$rows);
     }
 
     /**
@@ -81,7 +96,7 @@ class FrontendCommand extends Command
     private function onIncrementAll(): void
     {
         $version = $this->getFrontendVersion();
-        $affected = $version->incVersions();
+        $affected = $version->incAllVersions();
         $version->save();
 
         $this->output->success("Increased {$affected} versions.");
@@ -99,9 +114,13 @@ class FrontendCommand extends Command
     private function onInfo(): void
     {
         $version =  $this->getFrontendVersion();
+        $versions = [];
+        foreach ($version->getAllVersions() as $path => $versionNumber){
+            $versions[]=[$path, $versionNumber];
+        }
         $this->output->table([
-            'script type', 'id', 'version'
-        ], $version->getVersionsInfo());
+            'script path', 'version'
+        ], $versions);
     }
 
     /**
