@@ -1,6 +1,6 @@
 <html data-bs-theme="dark">
 <head>
-    <title>@yield('title')</title>
+    <title>{{ $meta_title ?? '' }}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
     <meta name="description" content="@yield('meta_description')" />
     <script defer src="/js/jquery-3.7.1.min.js"></script>

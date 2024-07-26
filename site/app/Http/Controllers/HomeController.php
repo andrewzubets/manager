@@ -17,7 +17,8 @@ class HomeController extends VueControllerBase
      */
     public function home(): View
     {
-        return $this->vue([]);
+        $this->setMetaTitle('Главная');
+        return $this->vue();
     }
 
     /**

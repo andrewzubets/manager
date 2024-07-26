@@ -10,13 +10,38 @@ use Illuminate\View\View;
  */
 abstract class VueControllerBase
 {
+    protected string $metaTitle = '';
+    protected array $preloadedState = [];
+
+    protected array $data = [];
+
+    protected function setMetaTitle(string $title): static {
+        $this->metaTitle = $title;
+        if(!isset($this->preloadedState['meta'])){
+            $this->preloadedState['meta'] = [];
+        }
+        $this->preloadedState['meta']['title'] = $title;
+        return $this;
+    }
+
+    protected function setPreloadedState(string $key, mixed $value): static {
+        $this->preloadedState[$key] = $value;
+        return $this;
+    }
+
+    protected function setData(string $key, mixed $value): static {
+        $this->data[$key] = $value;
+        return $this;
+    }
+
     /**
      * Prepares vue view response.
      */
-    protected function vue(array $data, array $preloadedState = []): View {
+    protected function vue(array $data = []): View {
         return view('vue', [
-            'data' => $data,
-            'preloaded_state' => $preloadedState,
+            'meta_title' => $this->metaTitle,
+            'data' => $this->data,
+            'preloaded_state' => $this->preloadedState,
         ]);
     }
 }
