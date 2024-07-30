@@ -1,0 +1,25 @@
+{
+    "left": [
+        {
+            "trans" : "navigation/top-menu.home",
+            "route": "home"
+        },
+        {
+            "trans": "navigation/top-menu.question.index",
+            "route": "question.index",
+            "sub": [
+                {
+                    "trans": "navigation/top-menu.question.index",
+                    "route": "question.index"
+                },
+                {
+                    "trans": "navigation/top-menu.question.create",
+                    "route": "question.create"
+                }
+            ]
+        }
+    ],
+    "right": [
+
+    ]
+}
