@@ -37,11 +37,14 @@ abstract class VueControllerBase
     /**
      * Prepares vue view response.
      */
-    protected function vue(array $data = []): View {
+    protected function vue(): View {
+        $this->common();
         return view('vue', [
             'meta_title' => $this->metaTitle,
             'data' => $this->data,
             'preloaded_state' => $this->preloadedState,
         ]);
     }
+
+    protected abstract function common(): void;
 }

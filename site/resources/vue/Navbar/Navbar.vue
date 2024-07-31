@@ -4,7 +4,7 @@
             <Brand href="/" label="Manager" />
             <TogglerButton />
             <div class="collapse navbar-collapse">
-                <Menu :items="leftMenu" :active_route="active_route" @onDropdown="onDropdown" />
+                <Menu :items="topMenu.left" :active_route="active_route" @onDropdown="onDropdown" />
             </div>
         </div>
     </nav>
@@ -12,10 +12,11 @@
 
 <script setup>
 function onDropdown(v){
-    //alert('!');
-    //console.log('v', v);
     //v.expanded = !v.expanded;
 }
+const props = defineProps(['topMenu']);
+
+
 const leftMenu = [
     {
         href: '/',
@@ -61,7 +62,7 @@ import TogglerButton from "./Head/TogglerButton.vue";
 import Brand from "./Head/Brand.vue";
 import Menu from "./Menu/Menu.vue";
 import {store} from "../store";
-console.log('window.PS');
+
 export default {
     name: "Navbar",
     components: {Menu, Brand, TogglerButton},

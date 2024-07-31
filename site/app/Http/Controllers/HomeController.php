@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Api\Frontend\VueControllerBase;
+use App\Api\Menu\MenuManager;
 use Illuminate\View\View;
 
 /**
@@ -10,6 +11,22 @@ use Illuminate\View\View;
  */
 class HomeController extends VueControllerBase
 {
+
+    /**
+     * Common action that called before returning vue view.
+     *
+     * @return void
+     */
+    protected function common(): void
+    {
+        $menuManager = new MenuManager();
+        $menuManager->loadJsonMenu('navigation/top-menu');
+        $this->setPreloadedState('top-menu', [
+            'left' => $menuManager->getMenu('left'),
+            'right' => $menuManager->getMenu('right'),
+        ]);
+    }
+
     /**
      * Home page.
      *

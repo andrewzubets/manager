@@ -2,5 +2,6 @@
 
 return [
     '/' => ['home','home'],
-    '/questions' => ['questions','questions'],
+    '/questions' => ['questions','question.index'],
+    '/questions/new' => ['questions','question.create'],
 ];

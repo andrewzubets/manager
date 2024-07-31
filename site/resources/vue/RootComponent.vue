@@ -1,13 +1,14 @@
 <template>
-    <Navbar />
+    <Navbar :topMenu="topMenu" />
     <router-view>
 
     </router-view>
 </template>
 
 <script setup>
-const props = defineProps(['aaa']);
-console.log('root',props);
+const props = defineProps(['top-menu','meta_title']);
+const {topMenu} = props;
+
 </script>
 <script>
 import Navbar from "./Navbar/Navbar.vue";

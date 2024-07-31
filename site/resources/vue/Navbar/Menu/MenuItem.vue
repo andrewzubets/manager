@@ -16,6 +16,7 @@
 </template>
 <script setup>
 import {computed, ref, useAttrs} from "vue";
+import _ from "lodash";
 
 const props = defineProps({
     sub: Object|null,
@@ -25,7 +26,7 @@ const props = defineProps({
     active_routes: Array,
 })
 const attrs = useAttrs();
-const isSub = props.sub !== null;
+const isSub = _.isArray(props.sub);
 const expanded = ref(false);
 
 function toggleExpanded(e) {
