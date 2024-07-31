@@ -1,4 +1,8 @@
 <?php
 return [
-  'home'=>'Home',
+    'home' => 'Home',
+    'question' => [
+        'index' => 'Question list',
+        'create' => 'Add question',
+    ],
 ];

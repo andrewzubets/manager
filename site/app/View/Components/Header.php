@@ -17,7 +17,7 @@ class Header extends Component
      */
     public function __construct(private readonly MenuManager $menuManager)
     {
-        $this->menuManager->loadFromPath('navigation/top-menu');
+        $this->menuManager->loadJsonMenu('navigation/top-menu');
     }
 
     /**

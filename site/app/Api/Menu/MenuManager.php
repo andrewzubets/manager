@@ -2,38 +2,51 @@
 
 namespace App\Api\Menu;
 
-use Illuminate\Contracts\Filesystem\Filesystem;
 use Illuminate\Database\Eloquent\Casts\Json;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
+/**
+ * Manages menu.
+ *
+ * Used to load menu from json file and prepare it for view or vue.
+ */
 class MenuManager
 {
-    private Filesystem $filesystem;
 
-    public function __construct(
-        private array $menus = []
-    )
-    {
-        $this->filesystem = Storage::disk('data');
+    /**
+     * Menus.
+     */
+    private array $menus;
+
+    /**
+     * Constructs menu manager.
+     *
+     * @param array $menus
+     *   An array of menus.
+     */
+    public function __construct(array $menus = []){
+        $this->menus = $menus;
     }
 
-    public function loadFromPath(string $dataPath): bool {
-
-        if(Str::endsWith($dataPath, '.php')){
-           return $this->loadPhpMenu($dataPath);
+    /**
+     * Loads menu data from json file.
+     *
+     * @param string $path
+     *  Path to menu.json located in "data" disk.
+     *
+     * @return bool
+     *  True if loaded successfully.
+     */
+    public function loadJsonMenu(string $path): bool {
+        if(!Str::endsWith($path, '.json')){
+            $path.='.json';
         }
-        if(Str::endsWith($dataPath, '.json')){
-            return $this->loadJsonMenu($dataPath);
-        }
-        return $this->loadPhpMenu($dataPath . '.php');
-    }
-
-    public function loadJsonMenu(string $dataPath): bool {
-        if(!$this->filesystem->exists($dataPath)){
+        $disk = Storage::disk('data');
+        if(!$disk->exists($path)){
             return false;
         }
-        $menus = Json::decode($this->filesystem->get($dataPath),true);
+        $menus = Json::decode($disk->get($path),true);
         if(is_array($menus)){
             $this->menus = $menus;
             return true;
@@ -41,45 +54,111 @@ class MenuManager
         return false;
     }
 
-    public function loadPhpMenu(string $dataPath): bool {
-        if(!$this->filesystem->exists($dataPath)){
-            return false;
-        }
-        $menus = include $this->filesystem->path($dataPath);
-        if(is_array($menus)){
-            $this->menus = $menus;
-            return true;
-        }
-        return false;
-    }
-
+    /**
+     * Gets menu from loaded data.
+     *
+     * @param string $menuId
+     *   Menu's id.
+     * @return array
+     *   Array of menu items.
+     */
     public function getMenu(string $menuId): array {
         $menuItems = $this->menus[$menuId] ?? [];
-        return $this->prepareMenuItems($menuItems);
+        return $this->processMenuItems($menuItems);
     }
 
-    private function prepareMenuItems(array $menuItems): array
+    /**
+     * Processes menu items.
+     *
+     * Evaluating route or translation values.
+     *
+     * @param array $menuItems
+     *   Menu items to process.
+     * @return array
+     *  An array of processed items.
+     */
+    private function processMenuItems(array $menuItems): array
     {
         $processedMenuItems = [];
         foreach ($menuItems as $menuItem){
-            $href = $menuItem['href'] ?? '';
-            $label = $menuItem['label'] ?? '';
             $sub = $menuItem['sub'] ?? null;
-            if(isset($menuItem['href.route'])){
-                $href = route($menuItem['href.route']);
-            }
-            if(isset($menuItem['label.trans'])){
-                $label = trans($menuItem['label.trans']);
-            }
             $processedMenuItem = [
-                'href' => $href,
-                'label' => $label,
+                'href' => $this->getHref($menuItem),
+                'label' => $this->getLabel($menuItem),
+                'route' => $menuItem['route'] ?? null,
+                'active_routes' => $this->getActiveRoutes($menuItem),
             ];
             if(!empty($sub)){
-                $processedMenuItem['sub'] = $this->prepareMenuItems($sub);
+                $processedMenuItem['sub'] = $this->processMenuItems($sub);
             }
-            $processedMenuItems[]=$processedMenuItem;
+            $processedMenuItems[]= $processedMenuItem;
         }
         return $processedMenuItems;
+    }
+
+    /**
+     * Gets href from loaded menu item props.
+     *
+     * @param array $menuItem
+     *  Unprocessed menu item.
+     * @return string
+     *   Empty string if no href found.
+     */
+    private function getHref(array $menuItem): string
+    {
+        if(isset($menuItem['href'])){
+            return $menuItem['href'];
+        }
+        if(isset($menuItem['route'])){
+            $routeArgs = $menuItem['route_args'] ?? [];
+            return route($menuItem['route'], $routeArgs);
+        }
+        return '';
+    }
+
+    /**
+     * Gets label from loaded menu item props.
+     *
+     * @param array $menuItem
+     *  Unprocessed menu item.
+     * @return string
+     *   Empty string if no label found.
+     */
+    private function getLabel(array $menuItem): string
+    {
+        if(isset($menuItem['label'])){
+            return $menuItem['label'];
+        }
+        if(isset($menuItem['trans'])){
+            return trans($menuItem['trans']);
+        }
+        return '';
+    }
+
+    /**
+     * Gets label from loaded menu item props.
+     *
+     * @param array $menuItem
+     *  Unprocessed menu item.
+     * @return array
+     *   Array of active routes.
+     */
+    private function getActiveRoutes(array $menuItem): ?array
+    {
+        if(isset($menuItem['active_routes'])) {
+            return $menuItem['active_routes'];
+        }
+        $activeRoutes = [];
+        if(isset($menuItem['route'])){
+            $activeRoutes[]=$menuItem['route'];
+        }
+        if(empty($menuItem['sub'])){
+           return $activeRoutes;
+        }
+        foreach ($menuItem['sub'] as $subMenuItem){
+            $subActiveRoutes = $this->getActiveRoutes($subMenuItem);
+            $activeRoutes = array_merge($activeRoutes, $subActiveRoutes);
+        }
+        return array_unique($activeRoutes);
     }
 }
