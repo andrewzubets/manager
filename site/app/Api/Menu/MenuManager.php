@@ -59,12 +59,15 @@ class MenuManager
      *
      * @param string $menuId
      *   Menu's id.
+     * @param bool $absolute
+     *  Should links contain site's base url.
+     *
      * @return array
      *   Array of menu items.
      */
-    public function getMenu(string $menuId): array {
+    public function getMenu(string $menuId, bool $absolute = true): array {
         $menuItems = $this->menus[$menuId] ?? [];
-        return $this->processMenuItems($menuItems);
+        return $this->processMenuItems($menuItems, $absolute);
     }
 
     /**
@@ -74,22 +77,24 @@ class MenuManager
      *
      * @param array $menuItems
      *   Menu items to process.
+     * @param bool $absolute
+     *  Should links contain site's base url.
      * @return array
      *  An array of processed items.
      */
-    private function processMenuItems(array $menuItems): array
+    private function processMenuItems(array $menuItems, bool $absolute = true): array
     {
         $processedMenuItems = [];
         foreach ($menuItems as $menuItem){
             $sub = $menuItem['sub'] ?? null;
             $processedMenuItem = [
-                'href' => $this->getHref($menuItem),
+                'href' => $this->getHref($menuItem, $absolute),
                 'label' => $this->getLabel($menuItem),
                 'route' => $menuItem['route'] ?? null,
                 'active_routes' => $this->getActiveRoutes($menuItem),
             ];
             if(!empty($sub)){
-                $processedMenuItem['sub'] = $this->processMenuItems($sub);
+                $processedMenuItem['sub'] = $this->processMenuItems($sub, $absolute);
             }
             $processedMenuItems[]= $processedMenuItem;
         }
@@ -101,17 +106,19 @@ class MenuManager
      *
      * @param array $menuItem
      *  Unprocessed menu item.
+     * @param bool $absolute
+     *  Should links contain site's base url.
      * @return string
      *   Empty string if no href found.
      */
-    private function getHref(array $menuItem): string
+    private function getHref(array $menuItem, bool $absolute = true): string
     {
         if(isset($menuItem['href'])){
             return $menuItem['href'];
         }
         if(isset($menuItem['route'])){
             $routeArgs = $menuItem['route_args'] ?? [];
-            return route($menuItem['route'], $routeArgs);
+            return route($menuItem['route'], $routeArgs, $absolute);
         }
         return '';
     }
@@ -159,6 +166,6 @@ class MenuManager
             $subActiveRoutes = $this->getActiveRoutes($subMenuItem);
             $activeRoutes = array_merge($activeRoutes, $subActiveRoutes);
         }
-        return array_unique($activeRoutes);
+        return array_values(array_unique($activeRoutes));
     }
 }

@@ -22,8 +22,8 @@ class HomeController extends VueControllerBase
         $menuManager = new MenuManager();
         $menuManager->loadJsonMenu('navigation/top-menu');
         $this->setPreloadedState('top-menu', [
-            'left' => $menuManager->getMenu('left'),
-            'right' => $menuManager->getMenu('right'),
+            'left' => $menuManager->getMenu('left', false),
+            'right' => $menuManager->getMenu('right', false),
         ]);
     }
 

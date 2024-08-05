@@ -9,7 +9,12 @@ const routes = [
         name: 'home'
     },
     {
-        path: '/vue',
+        path: '/questions',
+        component: QuestionsPage,
+        name: 'questions'
+    },
+    {
+        path: '/questions/new',
         component: QuestionsPage,
         name: 'questions'
     }

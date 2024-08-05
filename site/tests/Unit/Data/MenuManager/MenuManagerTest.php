@@ -40,13 +40,13 @@ class MenuManagerTest extends TestCase
         $menuItem = $menuItems[0];
         $this->assertValidMenuItem($menuItem, isSub: false, expectData: [
             'label' => trans('navigation/top-menu.home'),
-            'href' => route(self::TEST_ROUTE_1),
+            'href' => \route(self::TEST_ROUTE_1),
         ]);
 
         $menuItem2 = $menuItems[1];
         $this->assertValidMenuItem($menuItem2, isSub: false, expectData: [
             'label' => trans('navigation/top-menu.home'),
-            'href' => route(self::TEST_ROUTE_ARG, self::TEST_ROUTE_ARGUMENT),
+            'href' => \route(self::TEST_ROUTE_ARG, self::TEST_ROUTE_ARGUMENT),
         ]);
 
     }
@@ -124,6 +124,46 @@ class MenuManagerTest extends TestCase
             $subMenuItem1['href']
         );
         $this->assertEquals('Route 2', $subMenuItem1['label']);
+    }
+
+    public function test_absolute(): void {
+        $menuManager = new MenuManager([
+            'left'=>[
+                [
+                    'label' => 'Route 1',
+                    'route' => self::TEST_ROUTE_1,
+                ],
+                [
+                    'label' => 'Sub',
+                    'route' => self::TEST_ROUTE_2,
+                    'sub' => [
+                        [
+                            'label' => 'Route 2',
+                            'route' => self::TEST_ROUTE_ARG,
+                            'route_args' => self::TEST_ROUTE_ARGUMENT,
+                        ],
+                    ]
+                ],
+            ]
+        ]);
+        $this->assertHasMenu($menuManager, 'left');
+        // Absolute.
+        $menuItems = $menuManager->getMenu('left');
+        $this->assertCount(2, $menuItems);
+        $this->assertEquals(route(self::TEST_ROUTE_1), $menuItems[0]['href']);
+        $this->assertEquals(
+            route(self::TEST_ROUTE_ARG, self::TEST_ROUTE_ARGUMENT),
+            $menuItems[1]['sub'][0]['href']
+        );
+
+        // Relative.
+        $menuItems = $menuManager->getMenu('left', false);
+        $this->assertCount(2, $menuItems);
+        $this->assertEquals(route(self::TEST_ROUTE_1,[], false), $menuItems[0]['href']);
+        $this->assertEquals(
+            route(self::TEST_ROUTE_ARG, self::TEST_ROUTE_ARGUMENT, false),
+            $menuItems[1]['sub'][0]['href']
+        );
     }
 
     private function assertHasMenu(MenuManager $menuManager, string $menuName): void {
