@@ -1,0 +1,14 @@
+.data-list {
+    .actions {
+        display: flex;
+        justify-content: end;
+        align-content: center;
+        .action {
+            display: block;
+            max-height: 40px;
+            min-width: 100px;
+            margin-left: 5px;
+            margin-right: 5px;
+        }
+    }
+}

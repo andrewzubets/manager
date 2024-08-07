@@ -1,8 +1,8 @@
 <template>
     <Navbar :topMenu="topMenu" />
-    <router-view>
-
-    </router-view>
+    <div class="container-fluid">
+    <router-view></router-view>
+    </div>
 </template>
 
 <script setup>
