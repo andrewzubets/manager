@@ -9,10 +9,16 @@
                 </div>
                 <div class="col-md-4">
                     <div class="actions">
-                        <RouterLink :to="item.edit_href" class="btn btn-outline-success action">
+                        <RouterLink
+                            v-if="isString(item['edit_href'])"
+                            :to="item['edit_href']"
+                            class="btn btn-outline-success action">
                             Edit
                         </RouterLink>
-                        <RouterLink :to="item.delete_href" class="btn btn-outline-danger action">
+                        <RouterLink
+                            v-if="isString(item['delete_href'])"
+                            :to="item['delete_href']"
+                            class="btn btn-outline-danger action">
                             Delete
                         </RouterLink>
                     </div>
@@ -26,9 +32,10 @@
 
 <script>
 import Pagination from "../Pagination/Pagination.vue";
-
+import {isString} from "lodash";
 export default {
     name: "DataList",
+    methods: {isString},
     components: {Pagination},
     props: {
       items: Array

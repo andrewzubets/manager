@@ -4,13 +4,15 @@
             <Brand href="/" label="Manager" />
             <TogglerButton />
             <div class="collapse navbar-collapse">
-                <Menu :items="topMenu.left" :active_route="active_route" @onDropdown="onDropdown" />
+                <Menu v-if="isObject(topMenu)" :items="topMenu.left" :active_route="active_route" @onDropdown="onDropdown" />
             </div>
         </div>
     </nav>
 </template>
 
 <script setup>
+import {isObject} from "lodash";
+
 function onDropdown(v){
     //v.expanded = !v.expanded;
 }

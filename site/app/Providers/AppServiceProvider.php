@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Api\Frontend\FrontendVersion;
+use App\Api\Frontend\PreloadedState;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 
@@ -40,6 +41,7 @@ class AppServiceProvider extends ServiceProvider
      * @var array
      */
     public array $singletons = [
-        'frontend_version' => FrontendVersion::class
+        'frontend_version' => FrontendVersion::class,
+        'preloaded_state' => PreloadedState::class,
     ];
 }
