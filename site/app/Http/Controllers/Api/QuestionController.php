@@ -20,51 +20,56 @@ class QuestionController extends Controller
         return Question::search($request->all())->paginate();
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request): Question
     {
-        //
+        $request->validate([
+            'name' => 'required|max:255'
+        ]);
+        $name = $request->get('name');
+        $isEnabled = $request->get('is_enabled', 0);
+        $record = new Question();
+        $record->name = $name;
+        $record->is_enabled = $isEnabled;
+        $record->save();
+
+        return $record;
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Question $question)
+    public function show(Question $question): Question
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Question $question)
-    {
-        //
+        return $question;
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Question $question)
+    public function update(Request $request, Question $question): Question
     {
-        //
+        $request->validate([
+            'name' => 'required|max:255'
+        ]);
+        $name = $request->get('name');
+        $isEnabled = $request->get('is_enabled', 0);
+
+        $question->name = $name;
+        $question->is_enabled = $isEnabled;
+        $question->save();
+
+        return $question;
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Question $question)
+    public function destroy(Question $question): void
     {
-        //
+        $question->delete();
     }
 }

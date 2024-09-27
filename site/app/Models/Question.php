@@ -31,6 +31,8 @@ class Question extends ModelBase
     use IdAttribute, EnabledAttribute, NameAttribute;
     use SoftDeletes;
 
+    public $hidden = ['deleted_at'];
+
     public static function search(array $filter): Builder
     {
         $query = static::query();
