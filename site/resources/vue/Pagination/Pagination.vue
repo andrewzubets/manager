@@ -1,18 +1,35 @@
 <template>
-    <nav aria-label="Page navigation example">
+    <nav v-if="!isEmpty(pagination) && pagination.has_pages">
         <ul class="pagination">
-            <li class="page-item"><a class="page-link" href="#">Previous</a></li>
-            <li class="page-item"><a class="page-link" href="#">1</a></li>
-            <li class="page-item"><a class="page-link" href="#">2</a></li>
-            <li class="page-item"><a class="page-link" href="#">3</a></li>
-            <li class="page-item"><a class="page-link" href="#">Next</a></li>
+            <li class="page-item">
+                <span v-if="!pagination.has_prev_pages" class="page-link">
+                    Пред.
+                </span>
+                <a v-if="pagination.has_prev_pages" class="page-link" style="cursor: pointer" @click.prevent="$emit('onPageClick', pagination.previous_page)">
+                    Пред.
+                </a>
+            </li>
+            <li class="page-item">
+                <span v-if="!pagination.has_more_pages" class="page-link">
+                    След.
+                </span>
+                <a v-if="pagination.has_more_pages" class="page-link" style="cursor: pointer" @click.prevent="$emit('onPageClick', pagination.next_page)">
+                    След.
+                </a>
+            </li>
         </ul>
     </nav>
 </template>
 
 <script>
+import {isEmpty} from "lodash";
+
 export default {
-    name: "Pagination"
+    name: "Pagination",
+    methods: {isEmpty},
+    props: {
+        pagination: Object,
+    }
 }
 </script>
 

@@ -13,6 +13,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Carbon;
 
 /**
+ * Model class for questions.
  *
  * @property int $id
  * @property int $is_enabled
@@ -33,11 +34,19 @@ class Question extends ModelBase
 
     public $hidden = ['deleted_at'];
 
-    public static function search(array $filter): Builder
+    /**
+     * Filters query by parameters.
+     *
+     * @param array $params
+     *   Array of key value pairs. Possible options: name, trashed, sortOrder.
+     * @return Builder
+     */
+    public static function filter(array $params): Builder
     {
         $query = static::query();
-        $name = $filter['name'] ?? '';
-        $withTrashed = $filter['trashed'] ?? false;
+        $name = $params['name'] ?? '';
+        $withTrashed = $params['trashed'] ?? false;
+        $query->orderBy('updated_at', $params['sortOrder'] ?? 'asc');
         if(!empty($name)){
             $query->where('name','like', '%'.$name.'%');
         }

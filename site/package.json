@@ -21,6 +21,7 @@
         "vue-loader": "^16.8.3"
     },
     "dependencies": {
+        "moment": "^2.30.1",
         "vue-router": "^4.4.0"
     }
 }
