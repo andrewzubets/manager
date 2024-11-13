@@ -6,17 +6,13 @@
     </div>
 </template>
 
-<script setup>
-
-import Notifications from "./Components/Notifications.vue";
-
-</script>
 <script>
-import Navbar from "./Navbar/Navbar.vue";
+import Navbar from "@components/Navbar/Navbar.vue";
+import Notifications from "@components/Notifications.vue";
 
 export default {
-    name: "RootComponent",
-    components: {Navbar},
+    name: "Main",
+    components: {Notifications, Navbar},
     props: {
         topMenu: {
             type: Object

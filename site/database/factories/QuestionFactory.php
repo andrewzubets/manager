@@ -33,16 +33,16 @@ class QuestionFactory extends Factory
 
     /**
      * Gets creation dates.
-     *
-     * @return array
      */
-    public function getCreationDates(): array {
-        $createdAt = $this->faker->dateTimeBetween('-5 years','-1 years');
-        $updatedAt = $this->faker->dateTimeBetween($createdAt, (clone $createdAt)->add(\DateInterval::createFromDateString('4 day')) );
+    public function getCreationDates(): array
+    {
+        $createdAt = $this->faker->dateTimeBetween('-5 years', '-1 years');
+        $updatedAt = $this->faker->dateTimeBetween($createdAt, (clone $createdAt)->add(\DateInterval::createFromDateString('4 day')));
         $deletedAt = null;
-        if($this->faker->boolean(20)){
-            $deletedAt = $this->faker->dateTimeBetween($updatedAt,'-1 years');
+        if ($this->faker->boolean(20)) {
+            $deletedAt = $this->faker->dateTimeBetween($updatedAt, '-1 years');
         }
+
         return [
             'created_at' => $createdAt,
             'updated_at' => $updatedAt,

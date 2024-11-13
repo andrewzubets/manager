@@ -12,13 +12,15 @@ use Illuminate\Database\Eloquent\Builder;
  */
 trait IdAttribute
 {
-    public function getId(): ?int {
+    public function getId(): ?int
+    {
         return $this->getAttribute('id') ?? null;
     }
 
-    public function setId(?int $id): static {
+    public function setId(?int $id): static
+    {
         $this->setAttribute('id', $id);
+
         return $this;
     }
-
 }

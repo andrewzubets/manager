@@ -7,8 +7,8 @@ use App\Api\Model\Attributes\IdAttribute;
 use App\Api\Model\Attributes\NameAttribute;
 use App\Api\Model\ModelBase;
 use Database\Factories\QuestionFactory;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Carbon;
 
@@ -28,8 +28,10 @@ use Illuminate\Support\Carbon;
  */
 class Question extends ModelBase
 {
+    use EnabledAttribute;
     use HasFactory;
-    use IdAttribute, EnabledAttribute, NameAttribute;
+    use IdAttribute;
+    use NameAttribute;
     use SoftDeletes;
 
     public $hidden = ['deleted_at'];
@@ -37,9 +39,8 @@ class Question extends ModelBase
     /**
      * Filters query by parameters.
      *
-     * @param array $params
-     *   Array of key value pairs. Possible options: name, trashed, sortOrder.
-     * @return Builder
+     * @param  array  $params
+     *                         Array of key value pairs. Possible options: name, trashed, sortOrder.
      */
     public static function filter(array $params): Builder
     {
@@ -47,12 +48,13 @@ class Question extends ModelBase
         $name = $params['name'] ?? '';
         $withTrashed = $params['trashed'] ?? false;
         $query->orderBy('updated_at', $params['sortOrder'] ?? 'asc');
-        if(!empty($name)){
-            $query->where('name','like', '%'.$name.'%');
+        if (! empty($name)) {
+            $query->where('name', 'like', '%'.$name.'%');
         }
-        if($withTrashed){
+        if ($withTrashed) {
             $query->withTrashed();
         }
+
         return $query;
     }
 }

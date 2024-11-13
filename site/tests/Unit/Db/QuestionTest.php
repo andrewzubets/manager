@@ -11,6 +11,7 @@ class QuestionTest extends TestCase
     use RefreshDatabase;
 
     protected const TEST_CREATE_NAME = 'Question 1.';
+
     protected const TEST_UPDATE_NAME = 'Question updated.';
 
     /**
@@ -33,7 +34,7 @@ class QuestionTest extends TestCase
      */
     public function test_create(): void
     {
-        $record = new Question();
+        $record = new Question;
         $record->setIsEnabled(true);
         $record->setName(self::TEST_CREATE_NAME);
         $record->save();
@@ -50,8 +51,9 @@ class QuestionTest extends TestCase
     /**
      * Test of updating.
      */
-    public function test_update(){
-        $record = new Question();
+    public function test_update()
+    {
+        $record = new Question;
         $record->setIsEnabled(true);
         $record->setName(self::TEST_CREATE_NAME);
         $record->save();
@@ -62,21 +64,22 @@ class QuestionTest extends TestCase
         $record->save();
 
         $retrieved = Question::findOrFail($record->getId());
-        $this->assertEquals(self::TEST_UPDATE_NAME, $retrieved->getName(),'Updated name not match.');
+        $this->assertEquals(self::TEST_UPDATE_NAME, $retrieved->getName(), 'Updated name not match.');
         $this->assertFalse($retrieved->getIsEnabled(), 'Update is enabled failed.');
     }
 
     /**
      * Test deleting.
      */
-    public function test_question_delete(): void {
-        $record = new Question();
+    public function test_question_delete(): void
+    {
+        $record = new Question;
         $record->setIsEnabled(true);
-        $record->setName( self::TEST_CREATE_NAME);
+        $record->setName(self::TEST_CREATE_NAME);
         $record->save();
-        $this->assertDatabaseCount(Question::class,1);
+        $this->assertDatabaseCount(Question::class, 1);
 
         $record->delete();
-        $this->assertDatabaseCount(Question::class,0);
+        $this->assertDatabaseCount(Question::class, 0);
     }
 }

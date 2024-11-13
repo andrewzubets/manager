@@ -16,17 +16,17 @@
 
 <script>
 import {useRoute} from "vue-router";
-import Preloader from "../../../../vue/Components/Preloader.vue";
-import {store} from "../../../../vue/store";
+import Preloader from "@components/Preloader.vue";
+import {store} from "@store/store";
 import {
     axiosDeleteQuestion,
     axiosGetQuestion,
     getQuestionsBreadcrumbs,
     getQuestionsRoute
-} from "../../../api/questions";
-import FormSubmit from "../../../../vue/Components/Form/FormSubmit.vue";
-import NotFound404 from "../../../../vue/Components/NotFound404.vue";
-import Breadcrumbs from "../../../../vue/Breadcrumbs/Breadcrumbs.vue";
+} from "@api/questions";
+import FormSubmit from "@components/Form/FormSubmit.vue";
+import NotFound404 from "@components/NotFound404.vue";
+import Breadcrumbs from "@components/Breadcrumbs.vue";
 
 export default {
     name: "QuestionDeletePage",

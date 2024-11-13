@@ -17,11 +17,11 @@
     <QuestionList v-if="!is_loading" :items="items" />
 </template>
 <script>
-import Breadcrumbs from "../../../../vue/Breadcrumbs/Breadcrumbs.vue";
-import Preloader from "../../../../vue/Components/Preloader.vue";
-import {axiosQuestionList, getQuestionListUriParams, getQuestionsBreadcrumbs} from "../../../api/questions";
-import Pagination from "../../../../vue/Pagination/Pagination.vue";
-import {store} from "../../../../vue/store";
+import Breadcrumbs from "@components/Breadcrumbs.vue";
+import Preloader from "@components/Preloader.vue";
+import {axiosQuestionList, getQuestionListUriParams, getQuestionsBreadcrumbs} from "@api/questions";
+import Pagination from "@components/Pagination/Pagination.vue";
+import {store} from "@store/store";
 import QuestionList from "./List/QuestionList.vue";
 import QuestionListActions from "./List/QuestionListActions.vue";
 

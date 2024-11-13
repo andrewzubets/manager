@@ -12,12 +12,15 @@ use Illuminate\Database\Eloquent\Builder;
  */
 trait NameAttribute
 {
-    public function getName(): ?string {
+    public function getName(): ?string
+    {
         return $this->getAttribute('name') ?? null;
     }
 
-    public function setName(string $name): static {
+    public function setName(string $name): static
+    {
         $this->setAttribute('name', $name);
+
         return $this;
     }
 }

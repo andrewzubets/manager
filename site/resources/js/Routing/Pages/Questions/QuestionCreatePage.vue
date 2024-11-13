@@ -19,12 +19,12 @@
 </template>
 
 <script>
-import FormGroup from "../../../../vue/Components/Form/FormGroup.vue";
-import FormSubmit from "../../../../vue/Components/Form/FormSubmit.vue";
-import Breadcrumbs from "../../../../vue/Breadcrumbs/Breadcrumbs.vue";
-import Preloader from "../../../../vue/Components/Preloader.vue";
-import {axiosCreateQuestion, getQuestionsBreadcrumbs, getQuestionsRoute } from "../../../api/questions";
-import {store} from "../../../../vue/store";
+import FormGroup from "@components/Form/FormGroup.vue";
+import FormSubmit from "@components/Form/FormSubmit.vue";
+import Breadcrumbs from "@components/Breadcrumbs.vue";
+import Preloader from "@components/Preloader.vue";
+import {axiosCreateQuestion, getQuestionsBreadcrumbs, getQuestionsRoute } from "@api/questions";
+import {store} from "@store/store";
 
 export default {
     name: "QuestionCreatePage",
