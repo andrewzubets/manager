@@ -12,12 +12,15 @@ use Illuminate\Database\Eloquent\Builder;
  */
 trait EnabledAttribute
 {
-    public function getIsEnabled(): bool{
+    public function getIsEnabled(): bool
+    {
         return (bool) $this->getAttribute('is_enabled');
     }
 
-    public function setIsEnabled(bool $value): static{
+    public function setIsEnabled(bool $value): static
+    {
         $this->setAttribute('is_enabled', $value);
+
         return $this;
     }
 }

@@ -1,5 +1,14 @@
 let mix = require('laravel-mix');
+const {join} = require("path");
 
+mix.alias({
+    '@': join(__dirname, 'resources/js'),
+    '@store': join(__dirname, 'resources/js/store'),
+    '@components': join(__dirname, 'resources/js/Components'),
+    '@api': join(__dirname, 'resources/js/api'),
+});
+
+console.log(__dirname);
 /*
  |--------------------------------------------------------------------------
  | Mix Asset Management

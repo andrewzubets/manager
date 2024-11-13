@@ -27,10 +27,10 @@
 </template>
 
 <script>
-import FormSubmit from "../../../../vue/Components/Form/FormSubmit.vue";
-import FormGroup from "../../../../vue/Components/Form/FormGroup.vue";
+import FormSubmit from "@components/Form/FormSubmit.vue";
+import FormGroup from "@components/Form/FormGroup.vue";
 import {isNumber} from "lodash";
-import {getQuestionsRoute} from "../../../api/questions";
+import {getQuestionsRoute} from "@api/questions";
 
 export default {
     name: "QuestionForm",

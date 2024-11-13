@@ -23,7 +23,7 @@ const props = defineProps(['topMenu']);
 import TogglerButton from "./Head/TogglerButton.vue";
 import Brand from "./Head/Brand.vue";
 import Menu from "./Menu/Menu.vue";
-import {store} from "../store";
+import {store} from "@store/store";
 
 export default {
     name: "Navbar",

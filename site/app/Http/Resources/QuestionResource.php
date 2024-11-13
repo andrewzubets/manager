@@ -15,8 +15,9 @@ class QuestionResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        if($this->resource instanceof Question){
+        if ($this->resource instanceof Question) {
             $question = $this->resource;
+
             return [
                 'id' => $question->id,
                 'name' => $question->name,
@@ -26,6 +27,7 @@ class QuestionResource extends JsonResource
                 'updated_at' => $question->updated_at,
             ];
         }
+
         return parent::toArray($request);
     }
 }

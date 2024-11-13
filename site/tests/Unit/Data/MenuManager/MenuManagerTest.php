@@ -7,10 +7,11 @@ use Tests\TestCase;
 
 class MenuManagerTest extends TestCase
 {
-    public const
-        TEST_ROUTE_1 = 'test-stub-1',
-        TEST_ROUTE_2 = 'test-stub-2',
-        TEST_ROUTE_ARG = 'test-stub-arg';
+    public const TEST_ROUTE_1 = 'test-stub-1';
+
+    public const TEST_ROUTE_2 = 'test-stub-2';
+
+    public const TEST_ROUTE_ARG = 'test-stub-arg';
 
     public const TEST_ROUTE_ARGUMENT = [123];
 
@@ -20,7 +21,7 @@ class MenuManagerTest extends TestCase
     public function test_simple(): void
     {
         $menuManager = new MenuManager([
-            'left'=>[
+            'left' => [
                 [
                     'trans' => 'navigation/top-menu.home',
                     'route' => self::TEST_ROUTE_1,
@@ -28,9 +29,9 @@ class MenuManagerTest extends TestCase
                 [
                     'trans' => 'navigation/top-menu.home',
                     'route' => self::TEST_ROUTE_ARG,
-                    'route_args' => self::TEST_ROUTE_ARGUMENT
-                ]
-            ]
+                    'route_args' => self::TEST_ROUTE_ARGUMENT,
+                ],
+            ],
         ]);
 
         $this->assertHasNoMenu($menuManager, 'not_existing');
@@ -57,14 +58,14 @@ class MenuManagerTest extends TestCase
     public function test_priority(): void
     {
         $menuManager = new MenuManager([
-            'left'=>[
+            'left' => [
                 [
                     'trans' => 'navigation/top-menu.home',
                     'label' => 'Home page',
                     'href' => '/',
                     'route' => self::TEST_ROUTE_1,
-                ]
-            ]
+                ],
+            ],
         ]);
         $this->assertHasMenu($menuManager, 'left');
         $menuItems = $menuManager->getMenu('left');
@@ -72,7 +73,7 @@ class MenuManagerTest extends TestCase
         $menuItem = $menuItems[0];
         $this->assertValidMenuItem($menuItem, isSub: false, expectData: [
             'href' => '/',
-            'label' => 'Home page'
+            'label' => 'Home page',
         ]);
     }
 
@@ -82,7 +83,7 @@ class MenuManagerTest extends TestCase
     public function test_sub(): void
     {
         $menuManager = new MenuManager([
-            'left'=>[
+            'left' => [
                 [
                     'label' => 'Route 1',
                     'route' => self::TEST_ROUTE_1,
@@ -96,9 +97,9 @@ class MenuManagerTest extends TestCase
                             'route' => self::TEST_ROUTE_ARG,
                             'route_args' => self::TEST_ROUTE_ARGUMENT,
                         ],
-                    ]
+                    ],
                 ],
-            ]
+            ],
         ]);
 
         $this->assertHasMenu($menuManager, 'left');
@@ -120,15 +121,16 @@ class MenuManagerTest extends TestCase
         $this->assertCount(1, $subMenuItem['sub']);
         $subMenuItem1 = $subMenuItem['sub'][0];
         $this->assertEquals(
-            \route(self::TEST_ROUTE_ARG,self::TEST_ROUTE_ARGUMENT),
+            \route(self::TEST_ROUTE_ARG, self::TEST_ROUTE_ARGUMENT),
             $subMenuItem1['href']
         );
         $this->assertEquals('Route 2', $subMenuItem1['label']);
     }
 
-    public function test_absolute(): void {
+    public function test_absolute(): void
+    {
         $menuManager = new MenuManager([
-            'left'=>[
+            'left' => [
                 [
                     'label' => 'Route 1',
                     'route' => self::TEST_ROUTE_1,
@@ -142,9 +144,9 @@ class MenuManagerTest extends TestCase
                             'route' => self::TEST_ROUTE_ARG,
                             'route_args' => self::TEST_ROUTE_ARGUMENT,
                         ],
-                    ]
+                    ],
                 ],
-            ]
+            ],
         ]);
         $this->assertHasMenu($menuManager, 'left');
         // Absolute.
@@ -159,19 +161,21 @@ class MenuManagerTest extends TestCase
         // Relative.
         $menuItems = $menuManager->getMenu('left', false);
         $this->assertCount(2, $menuItems);
-        $this->assertEquals(route(self::TEST_ROUTE_1,[], false), $menuItems[0]['href']);
+        $this->assertEquals(route(self::TEST_ROUTE_1, [], false), $menuItems[0]['href']);
         $this->assertEquals(
             route(self::TEST_ROUTE_ARG, self::TEST_ROUTE_ARGUMENT, false),
             $menuItems[1]['sub'][0]['href']
         );
     }
 
-    private function assertHasMenu(MenuManager $menuManager, string $menuName): void {
+    private function assertHasMenu(MenuManager $menuManager, string $menuName): void
+    {
         $menuItems = $menuManager->getMenu($menuName);
         $this->assertNotEmpty($menuItems, 'Menu should have items.');
     }
 
-    private function assertHasNoMenu(MenuManager $menuManager, string $menuName): void {
+    private function assertHasNoMenu(MenuManager $menuManager, string $menuName): void
+    {
         $menuItems = $menuManager->getMenu($menuName);
         $this->assertEmpty($menuItems, 'Menu should have no items.');
     }
@@ -181,12 +185,13 @@ class MenuManagerTest extends TestCase
         $this->assertNotEmpty($menuItem, 'Menu item cant be empty.');
         $this->assertTrue(
             isset($menuItem['label']) || isset($menuItem['trans']),
-            'Menu item should have label or trans.');
+            'Menu item should have label or trans.'
+        );
         $this->assertTrue(
             isset($menuItem['href']) || isset($menuItem['route']),
             'Menu item should have href or route.'
         );
-        if($isSub) {
+        if ($isSub) {
             $this->assertArrayHasKey('sub', $menuItem, 'Sub menu item should have sub property.');
         }
         foreach ($expectData as $propId => $expectedValue) {

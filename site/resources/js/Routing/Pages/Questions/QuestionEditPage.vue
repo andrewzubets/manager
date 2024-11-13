@@ -7,21 +7,21 @@
 </template>
 
 <script>
-import Breadcrumbs from "../../../../vue/Breadcrumbs/Breadcrumbs.vue";
+import Breadcrumbs from "@components/Breadcrumbs.vue";
 import {useRoute} from "vue-router";
 
-import FormSubmit from "../../../../vue/Components/Form/FormSubmit.vue";
-import FormGroup from "../../../../vue/Components/Form/FormGroup.vue";
+import FormSubmit from "@components/Form/FormSubmit.vue";
+import FormGroup from "@components/Form/FormGroup.vue";
 import {
     axiosGetQuestion,
     axiosUpdateQuestion,
     getQuestionsBreadcrumbs,
     getQuestionsRoute
-} from "../../../api/questions";
-import Preloader from "../../../../vue/Components/Preloader.vue";
-import {store} from "../../../../vue/store";
+} from "@api/questions";
+import Preloader from "@components/Preloader.vue";
+import {store} from "@store/store";
 import QuestionForm from "./QuestionForm.vue";
-import NotFound404 from "../../../../vue/Components/NotFound404.vue";
+import NotFound404 from "@components/NotFound404.vue";
 
 export default {
     name: "QuestionEditPage",

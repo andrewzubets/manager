@@ -2,14 +2,22 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use App\Api\Model\User\AuthUser;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Notifications\Notifiable;
 
+/**
+ *  User model.
+ *
+ * @property string $name
+ * @property string $email
+ * @property string $password
+ * @property mixed|string $remember_token
+ */
 class User extends AuthUser
 {
-    use HasFactory, Notifiable;
+    use HasFactory;
+    use Notifiable;
 
     /**
      * The attributes that are mass assignable.
