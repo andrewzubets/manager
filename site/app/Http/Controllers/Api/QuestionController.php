@@ -3,113 +3,94 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Api\QuestionListFilter;
+use App\Http\Requests\Api\ReceivedQuestionData;
+use App\Http\Resources\QuestionListResource;
 use App\Http\Resources\QuestionResource;
-use App\Models\Question;
-use Illuminate\Http\Request;
 
 /**
  * Controller that handles questions requests.
  */
 class QuestionController extends Controller
 {
+
     /**
      * Gets question list.
      *
-     * @param  Request  $request
-     *                            Request instance.
-     * @return array
-     *               An array of list data with pagination info.
+     * @param QuestionListFilter $request
+     *    Request containing question filter data.
+     * @return QuestionListResource
+     *    An array of question with pagination info.
      */
-    public function index(Request $request): array
+    public function index(QuestionListFilter $request): QuestionListResource
     {
+        $paginated = $this->repositoryManager
+            ->getQuestionRepository()
+            ->getPaginatedList($request);
 
-        $paginated = Question::filter($request->all())
-            ->paginate()
-            ->setPath('');
-
-        return [
-            'data' => QuestionResource::collection($paginated->items()),
-            'pagination' => [
-                'previous_page' => $paginated->currentPage() - 1,
-                'current_page' => $paginated->currentPage(),
-                'next_page' => $paginated->currentPage() + 1,
-                'last_page' => $paginated->lastPage(),
-                'has_pages' => $paginated->hasPages(),
-                'has_more_pages' => $paginated->hasMorePages(),
-                'has_prev_pages' => $paginated->currentPage() > 1,
-            ],
-        ];
+        return new QuestionListResource($paginated);
     }
 
     /**
      * Creates new question record.
      *
-     * @param  Request  $request
-     *                            Request instance.
-     * @return Question
-     *                  New question record.
+     * @param ReceivedQuestionData $questionRequest
+     *   Transferred question data.
+     * @return QuestionResource
+     *   Newly created question.
      */
-    public function store(Request $request): Question
+    public function store(ReceivedQuestionData $questionRequest): QuestionResource
     {
-        $request->validate([
-            'name' => 'required|max:255',
-        ]);
-        $name = $request->get('name');
-        $isEnabled = $request->get('is_enabled', 0);
-        $record = new Question;
-        $record->name = $name;
-        $record->is_enabled = $isEnabled;
-        $record->save();
+        $question = $this->repositoryManager
+            ->getQuestionRepository()
+            ->createQuestion($questionRequest);
 
-        return $record;
+        return new QuestionResource($question);
     }
 
     /**
      * Gets question record.
      *
-     * @param  Question  $question
-     *                              Resolved question record.
-     * @return Question
-     *                  Requested question.
+     * @param int $questionId
+     *   Requested question id.
+     * @return QuestionResource
+     *   Question resource.
      */
-    public function show(Question $question): Question
+    public function show(int $questionId): QuestionResource
     {
-        return $question;
+        return new QuestionResource($this
+            ->repositoryManager
+            ->getQuestionRepository()
+            ->getQuestion($questionId));
     }
 
     /**
      * Updates existing question record.
      *
-     * @param  Request  $request
-     *                            Request instance.
-     * @param  Question  $question
-     *                              Updated question record.
-     * @return Question
-     *                  Updated question.
+     * @param ReceivedQuestionData $request
+     *    Transferred question data.
+     * @param int $questionId
+     *    Question id.
+     * @return QuestionResource
+     *    Updated question resource.
      */
-    public function update(Request $request, Question $question): Question
+    public function update(ReceivedQuestionData $request, int $questionId): QuestionResource
     {
-        $request->validate([
-            'name' => 'required|max:255',
-        ]);
-        $name = $request->get('name');
-        $isEnabled = $request->get('is_enabled', 0);
-
-        $question->name = $name;
-        $question->is_enabled = $isEnabled;
-        $question->save();
-
-        return $question;
+        return new QuestionResource($this->repositoryManager
+            ->getQuestionRepository()
+            ->updateQuestion($request, $questionId));
     }
 
     /**
      * Deletes existing question record from database.
      *
-     * @param  Question  $question
-     *                              Resolved question.
+     * @param int $questionId
+     *   Requested question id.
      */
-    public function destroy(Question $question): void
+    public function destroy(int $questionId): void
     {
-        $question->delete();
+        $this->repositoryManager
+            ->getQuestionRepository()
+            ->deleteQuestion($questionId);
     }
 }

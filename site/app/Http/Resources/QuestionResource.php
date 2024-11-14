@@ -2,7 +2,7 @@
 
 namespace App\Http\Resources;
 
-use App\Models\Question;
+use App\Models\Interfaces\IQuestionModel;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -15,16 +15,16 @@ class QuestionResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        if ($this->resource instanceof Question) {
+        if ($this->resource instanceof IQuestionModel) {
             $question = $this->resource;
 
             return [
-                'id' => $question->id,
-                'name' => $question->name,
-                'is_enabled' => $question->is_enabled,
+                'id' => $question->getId(),
+                'name' => $question->getName(),
+                'is_enabled' => $question->getIsEnabled(),
                 'category' => '',
-                'created_at' => $question->created_at,
-                'updated_at' => $question->updated_at,
+                'created_at' => $question->getCreatedAt(),
+                'updated_at' => $question->getUpdatedAt(),
             ];
         }
 

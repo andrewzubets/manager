@@ -33,9 +33,9 @@ class MenuManager
      * Loads menu data from json file.
      *
      * @param  string  $path
-     *                        Path to menu.json located in "data" disk.
+     *    Path to menu.json located in "data" disk.
      * @return bool
-     *              True if loaded successfully.
+     *    True if loaded successfully.
      */
     public function loadJsonMenu(string $path): bool
     {
@@ -60,11 +60,11 @@ class MenuManager
      * Gets menu from loaded data.
      *
      * @param  string  $menuId
-     *                          Menu's id.
+     *    Menu's id.
      * @param  bool  $absolute
-     *                          Should links contain site's base url.
+     *    Should links contain site's base url.
      * @return array
-     *               Array of menu items.
+     *    Array of menu items.
      */
     public function getMenu(string $menuId, bool $absolute = true): array
     {
@@ -79,11 +79,11 @@ class MenuManager
      * Evaluating route or translation values.
      *
      * @param  array  $menuItems
-     *                            Menu items to process.
+     *   Menu items to process.
      * @param  bool  $absolute
-     *                          Should links contain site's base url.
+     *   Should links contain site's base url.
      * @return array
-     *               An array of processed items.
+     *   An array of processed items.
      */
     private function processMenuItems(array $menuItems, bool $absolute = true): array
     {
@@ -109,11 +109,11 @@ class MenuManager
      * Gets href from loaded menu item props.
      *
      * @param  array  $menuItem
-     *                           Unprocessed menu item.
+     *   Unprocessed menu item.
      * @param  bool  $absolute
-     *                          Should links contain site's base url.
+     *   Should links contain site's base url.
      * @return string
-     *                Empty string if no href found.
+     *   Empty string if no href found.
      */
     private function getHref(array $menuItem, bool $absolute = true): string
     {
@@ -133,9 +133,9 @@ class MenuManager
      * Gets label from loaded menu item props.
      *
      * @param  array  $menuItem
-     *                           Unprocessed menu item.
+     *   Unprocessed menu item.
      * @return string
-     *                Empty string if no label found.
+     *   Empty string if no label found.
      */
     private function getLabel(array $menuItem): string
     {
@@ -152,10 +152,10 @@ class MenuManager
     /**
      * Gets label from loaded menu item props.
      *
-     * @param  array  $menuItem
-     *                           Unprocessed menu item.
-     * @return array
-     *               Array of active routes.
+     * @param array $menuItem
+     *    Unprocessed menu item.
+     * @return array|null Array of active routes.
+     *    Array of active routes.
      */
     private function getActiveRoutes(array $menuItem): ?array
     {

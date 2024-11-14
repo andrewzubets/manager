@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Api\Frontend\FrontendVersion;
 use App\Api\Frontend\PreloadedState;
+use App\Repositories\RepositoryManager;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 
@@ -43,5 +44,6 @@ class AppServiceProvider extends ServiceProvider
     public array $singletons = [
         'frontend_version' => FrontendVersion::class,
         'preloaded_state' => PreloadedState::class,
+        'repository.manager' => RepositoryManager::class,
     ];
 }

@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Api\Model\Attributes;
+namespace App\Models\Attributes;
 
-use App\Api\Model\ModelBase;
+use App\Models\ModelBase;
 use Illuminate\Database\Eloquent\Builder;
 
 /**
