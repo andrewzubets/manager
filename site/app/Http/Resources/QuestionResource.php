@@ -17,6 +17,7 @@ class QuestionResource extends JsonResource
     {
         if ($this->resource instanceof IQuestionModel) {
             $question = $this->resource;
+            static::withoutWrapping();
 
             return [
                 'id' => $question->getId(),

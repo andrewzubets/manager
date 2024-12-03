@@ -38,7 +38,7 @@ class QuestionListFilter extends FormRequest implements IQuestionListFilter
      */
     public function getName(): null|string
     {
-        return $this->request->get('name');
+        return $this->get('name');
     }
 
 
@@ -47,7 +47,7 @@ class QuestionListFilter extends FormRequest implements IQuestionListFilter
      */
     public function getWithTrashed(): bool
     {
-        return $this->request->get('trashed', 0) == 1;
+        return $this->get('trashed', 0) == 1;
     }
 
     /**
@@ -55,7 +55,7 @@ class QuestionListFilter extends FormRequest implements IQuestionListFilter
      */
     public function getSortOrder(): SortOrder
     {
-        $value = SortOrder::tryFrom($this->request->get('sortOrder','asc'));
+        $value = SortOrder::tryFrom($this->get('sortOrder','asc'));
         if($value instanceof SortOrder){
             return $value;
         }
@@ -67,6 +67,6 @@ class QuestionListFilter extends FormRequest implements IQuestionListFilter
      */
     public function getPage(): int
     {
-        return $this->request->get('page', 1);
+        return $this->get('page', 1);
     }
 }
